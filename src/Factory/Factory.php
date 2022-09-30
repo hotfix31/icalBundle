@@ -1,57 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Welp\IcalBundle\Factory;
 
-use Welp\IcalBundle\Component\Calendar;
-
-use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\CalendarAlarm;
+use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\CalendarFreeBusy;
 use Jsvrcek\ICS\Model\CalendarTodo;
-
-use Jsvrcek\ICS\Model\Relationship\Attendee;
-use Jsvrcek\ICS\Model\Relationship\Organizer;
-
 use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
-
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
-
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\CalendarExport;
+use Welp\IcalBundle\Component\Calendar;
+
 /**
- * Calendar Factory
+ * Calendar Factory.
  *
- * @package Welp\IcalBundle\Factory
  * @author  Titouan BENOIT <titouan@welp.today>
+ * @see \Welp\IcalBundle\Tests\Factory\FactoryTest
  */
 class Factory
 {
-    /**
-     * @var string
-     */
-    protected $timezone;
+    private ?\DateTimeZone $timezone = null;
+    private ?string $prodid = null;
 
     /**
-     * @var string
+     * Create new calendar.
      */
-    protected $prodid;
-
-    /**
-     * Create new calendar
-     *
-     * @return Calendar
-     */
-    public function createCalendar()
+    public function createCalendar(): Calendar
     {
         $calendar = new Calendar();
 
-        if (!is_null($this->timezone)) {
+        if (null !== $this->timezone) {
             $calendar->setTimezone($this->timezone);
         }
 
-        if (!is_null($this->prodid)) {
+        if (null !== $this->prodid) {
             $calendar->setProdId($this->prodid);
         }
 
@@ -59,129 +46,89 @@ class Factory
     }
 
     /**
-     * Create new CalendarEvent
-     *
-     * @return CalendarEvent
+     * Create new CalendarEvent.
      */
-    public function createCalendarEvent()
+    public function createCalendarEvent(): CalendarEvent
     {
-        $calendarEvent = new CalendarEvent();
-
-        return $calendarEvent;
+        return new CalendarEvent();
     }
 
     /**
-     * Create new CalendarAlarm
-     *
-     * @return CalendarAlarm
+     * Create new CalendarAlarm.
      */
-    public function createCalendarAlarm()
+    public function createCalendarAlarm(): CalendarAlarm
     {
-        $calendarAlarm = new CalendarAlarm();
-
-        return $calendarAlarm;
+        return new CalendarAlarm();
     }
 
     /**
-     * Create new CalendarFreeBusy
-     *
-     * @return CalendarFreeBusy
+     * Create new CalendarFreeBusy.
      */
-    public function createCalendarFreeBusy()
+    public function createCalendarFreeBusy(): CalendarFreeBusy
     {
-        $calendarFreeBusy = new CalendarFreeBusy();
-
-        return $calendarFreeBusy;
+        return new CalendarFreeBusy();
     }
 
     /**
-     * Create new CalendarTodo
-     *
-     * @return CalendarTodo
+     * Create new CalendarTodo.
      */
-    public function createCalendarTodo()
+    public function createCalendarTodo(): CalendarTodo
     {
-        $calendarTodo = new CalendarTodo();
-
-        return $calendarTodo;
+        return new CalendarTodo();
     }
 
     /**
-     * Create new Attendee
-     *
-     * @return Attendee
+     * Create new Attendee.
      */
-    public function createAttendee()
+    public function createAttendee(): Attendee
     {
-        $attendee = new Attendee(new Formatter());
-
-        return $attendee;
+        return new Attendee(new Formatter());
     }
 
     /**
-     * Create new Organizer
-     *
-     * @return Organizer
+     * Create new Organizer.
      */
-    public function createOrganizer()
+    public function createOrganizer(): Organizer
     {
-        $organizer = new Organizer(new Formatter());
-
-        return $organizer;
+        return new Organizer(new Formatter());
     }
 
     /**
-     * Create new Geo
-     *
-     * @return Geo
+     * Create new Geo.
      */
-    public function createGeo()
+    public function createGeo(): Geo
     {
-        $geo = new Geo();
-
-        return $geo;
+        return new Geo();
     }
 
     /**
-     * Create new Location
-     *
-     * @return Location
+     * Create new Location.
      */
-    public function createLocation()
+    public function createLocation(): Location
     {
-        $location = new Location();
-
-        return $location;
+        return new Location();
     }
 
     /**
-     * Create new RecurrenceRule
-     *
-     * @return RecurrenceRule
+     * Create new RecurrenceRule.
      */
-    public function createRecurrenceRule()
+    public function createRecurrenceRule(): RecurrenceRule
     {
-        $recurrenceRule = new RecurrenceRule(new Formatter());
-
-        return $recurrenceRule;
+        return new RecurrenceRule(new Formatter());
     }
 
     /**
-     * Set default timezone for calendars
-     *
-     * @param string $timezone
+     * Set default timezone for calendars.
      */
-    public function setTimezone($timezone)
+    public function setTimezone(string $timezone): void
     {
         $this->timezone = new \DateTimeZone($timezone);
     }
 
     /**
-     * Set default prodid for calendars
-     *
-     * @param string $prodid
+     * Set default prodid for calendars.
      */
-    public function setProdid($prodid)
+    public function setProdid(string $prodid): void
     {
         $this->prodid = $prodid;
     }

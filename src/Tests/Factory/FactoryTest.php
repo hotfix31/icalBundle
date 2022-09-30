@@ -1,156 +1,139 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Welp\IcalBundle\Tests\Factory;
 
-use Welp\IcalBundle\Component\Calendar;
 use Welp\IcalBundle\Factory\Factory;
 use Welp\IcalBundle\Tests\CalendarTestCase;
 
 /**
- * Tests for calendar factory
+ * Tests for calendar factory.
  *
- * @package Welp\IcalBundle\Tests
  * @author  Titouan BENOIT <titouan@welp.today>
  */
 class FactoryTest extends CalendarTestCase
 {
-
     /**
      * @var Factory
      */
     protected $factory;
 
-
     /**
-     * Set up tests
+     * Set up tests.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->factory = new Factory();
     }
 
-
     /**
-     * Test initiating factory
+     * Test initiating factory.
      */
-    public function testInit()
+    public function testInit(): void
     {
         $this->assertInstanceOf('Welp\IcalBundle\Factory\Factory', $this->factory);
     }
 
-
     /**
-     * Test creating new calendar
-     *
+     * Test creating new calendar.
      */
-    public function testCreateCalendar()
+    public function testCreateCalendar(): void
     {
         $calendar = $this->factory->createCalendar();
         $this->assertCalendar($calendar);
     }
 
     /**
-     * Test creating new calendarEvent
-     *
+     * Test creating new calendarEvent.
      */
-    public function testCreateCalendarEvent()
+    public function testCreateCalendarEvent(): void
     {
         $calendarEvent = $this->factory->createCalendarEvent();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\CalendarEvent', $calendarEvent);
     }
 
     /**
-     * Test creating new calendarAlarm
-     *
+     * Test creating new calendarAlarm.
      */
-    public function testCreateCalendarAlarm()
+    public function testCreateCalendarAlarm(): void
     {
         $calendarAlarm = $this->factory->createCalendarAlarm();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\CalendarAlarm', $calendarAlarm);
     }
 
     /**
-     * Test creating new calendarFreeBusy
-     *
+     * Test creating new calendarFreeBusy.
      */
-    public function testCreateCalendarFreeBusy()
+    public function testCreateCalendarFreeBusy(): void
     {
         $calendarFreeBusy = $this->factory->createCalendarFreeBusy();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\CalendarFreeBusy', $calendarFreeBusy);
     }
 
     /**
-     * Test creating new calendarTodo
-     *
+     * Test creating new calendarTodo.
      */
-    public function testCreateCalendarTodo()
+    public function testCreateCalendarTodo(): void
     {
         $calendarTodo = $this->factory->createCalendarTodo();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\CalendarTodo', $calendarTodo);
     }
 
     /**
-     * Test creating new Attendee
-     *
+     * Test creating new Attendee.
      */
-    public function testCreateAttendee()
+    public function testCreateAttendee(): void
     {
         $attendee = $this->factory->createAttendee();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Relationship\Attendee', $attendee);
     }
 
     /**
-     * Test creating new Organizer
-     *
+     * Test creating new Organizer.
      */
-    public function testCreateOrganizer()
+    public function testCreateOrganizer(): void
     {
         $organizer = $this->factory->createOrganizer();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Relationship\Organizer', $organizer);
     }
 
     /**
-     * Test creating new Geo
-     *
+     * Test creating new Geo.
      */
-    public function testCreateGeo()
+    public function testCreateGeo(): void
     {
         $geo = $this->factory->createGeo();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Description\Geo', $geo);
     }
 
     /**
-     * Test creating new Location
-     *
+     * Test creating new Location.
      */
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $location = $this->factory->createLocation();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Description\Location', $location);
     }
 
     /**
-     * Test creating new RecurrenceRule
-     *
+     * Test creating new RecurrenceRule.
      */
-    public function testCreateRecurrenceRule()
+    public function testCreateRecurrenceRule(): void
     {
         $recurrenceRule = $this->factory->createRecurrenceRule();
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Recurrence\RecurrenceRule', $recurrenceRule);
     }
 
     /**
-     * Test timezone
-     *
+     * Test timezone.
      */
-    public function testTimezone()
+    public function testTimezone(): void
     {
         $this->factory->setTimezone('Europe/Paris');
         $calendar = $this->factory->createCalendar();
         $this->assertCalendar($calendar);
         $this->assertInstanceOf('\DateTimeZone', $calendar->getTimezone());
-        $this->assertEquals('Europe/Paris', $calendar->getTimezone()->getName());
-
+        $this->assertSame('Europe/Paris', $calendar->getTimezone()->getName());
     }
-
 }

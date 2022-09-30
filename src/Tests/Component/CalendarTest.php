@@ -1,59 +1,55 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Welp\IcalBundle\Tests\Component;
 
 use Welp\IcalBundle\Component\Calendar;
 use Welp\IcalBundle\Tests\CalendarTestCase;
 
 /**
- * Tests for calendar component
+ * Tests for calendar component.
  *
- * @package Welp\IcalBundle\Tests
  * @author  Titouan BENOIT <titouan@welp.today>
  */
 class CalendarTest extends CalendarTestCase
 {
-
     /**
-     * Testing initiating calendar
-     *
+     * Testing initiating calendar.
      */
-    public function testInit()
+    public function testInit(): void
     {
         $calendar = new Calendar();
         $this->assertCalendar($calendar);
     }
 
     /**
-     * Testing filename calendar
-     *
+     * Testing filename calendar.
      */
-    public function testSetGetFilename()
+    public function testSetGetFilename(): void
     {
         $calendar = new Calendar();
-        $this->assertEquals('calendar.ics', $calendar->getFilename());
+        $this->assertSame('calendar.ics', $calendar->getFilename());
 
         $calendar->setFilename('test.ics');
-        $this->assertEquals('test.ics', $calendar->getFilename());
+        $this->assertSame('test.ics', $calendar->getFilename());
     }
 
     /**
-     * Testing contentType calendar
-     *
+     * Testing contentType calendar.
      */
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $calendar = new Calendar();
-        $this->assertEquals('text/calendar', $calendar->getContentType());
+        $this->assertSame('text/calendar', $calendar->getContentType());
     }
 
     /**
-     * Testing export calendar
-     *
+     * Testing export calendar.
      */
-    public function testExport()
+    public function testExport(): void
     {
         $calendar = new Calendar();
         $this->assertStringStartsWith('BEGIN:VCALENDAR', $calendar->export());
     }
-
 }

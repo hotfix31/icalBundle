@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Welp\IcalBundle;
 
-use Welp\IcalBundle\DependencyInjection\WelpIcalExtension;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Welp\IcalBundle\DependencyInjection\WelpIcalExtension;
 
 class WelpIcalBundle extends Bundle
 {
-    /**
-     * Get container extension
-     *
-     * @return ExtensionInterface
-     */
-    public function getContainerExtension()
+    public function getContainerExtension(): ExtensionInterface
     {
         if (!$this->extension instanceof ExtensionInterface) {
             $this->extension = new WelpIcalExtension();

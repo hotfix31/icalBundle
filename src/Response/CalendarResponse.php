@@ -1,56 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Welp\IcalBundle\Response;
 
-use Welp\IcalBundle\Component\Calendar;
 use Symfony\Component\HttpFoundation\Response;
-
-use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\CalendarExport;
+use Welp\IcalBundle\Component\Calendar;
 
 /**
- * Represents a HTTP response for a calendar file download
+ * Represents a HTTP response for a calendar file download.
  *
- * @package Welp\IcalBundle\Response
  * @author  Titouan BENOIT <titouan@welp.today>
+ * @see \Welp\IcalBundle\Tests\Response\CalendarResponseTest
  */
 class CalendarResponse extends Response
 {
     /**
-     * Calendar
+     * Construct calendar response.
      *
-     * @var Calendar
+     * @param Calendar              $calendar Calendar
+     * @param int                   $status   Response status
+     * @param array<string, string> $headers  Response headers
      */
-    protected $calendar;
-
-
-    /**
-     * Construct calendar response
-     *
-     * @param Calendar $calendar Calendar
-     * @param int      $status   Response status
-     * @param array    $headers  Response headers
-     */
-    public function __construct(Calendar $calendar, $status = 200, $headers = array())
+    public function __construct(protected Calendar $calendar, int $status = 200, array $headers = [])
     {
-        $this->calendar = $calendar;
-
         $content = $this->calendar->export();
 
-        $headers = array_merge($this->getDefaultHeaders(), $headers);
+        $headers = [...$this->getDefaultHeaders(), ...$headers];
         parent::__construct($content, $status, $headers);
     }
 
-
     /**
-     * Get default response headers for a calendar
+     * Get default response headers for a calendar.
      *
-     * @return array
+     * @return array<string, string>
      */
-    protected function getDefaultHeaders()
+    protected function getDefaultHeaders(): array
     {
-        $headers = array();
+        $headers = [];
 
         $mimeType = $this->calendar->getContentType();
         $headers['Content-Type'] = sprintf('%s; charset=utf-8', $mimeType);
